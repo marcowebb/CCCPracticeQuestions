@@ -2,9 +2,10 @@ from datetime import date,timedelta
 
 # Task 1
 today = date.today()
+dateFormat = "%d-%m-%Y"
 latest = today + timedelta(days=7)
-latestDate = latest.strftime("%d-%m-%Y")
-today = today.strftime("%d-%m-%Y")
+latestDate = latest.strftime(dateFormat)
+today = today.strftime(dateFormat)
 
 constOneDayCost = [20.00, 12.00, 16.00, 60.00, 15.00]
 constTwoDayCost = [30.00, 18.00, 24.00, 90.00, 22.50]
@@ -48,14 +49,14 @@ today = date.today()
 check = False
 while check != True:
 	print("You may book on:")
-	print("1:",today.strftime("%d-%m-%Y"))
-	print("2:",(today + timedelta(days=1)).strftime("%d-%m-%Y"))
-	print("3:",(today + timedelta(days=2)).strftime("%d-%m-%Y"))
-	print("4:",(today + timedelta(days=3)).strftime("%d-%m-%Y"))
-	print("5:",(today + timedelta(days=4)).strftime("%d-%m-%Y"))
-	print("6:",(today + timedelta(days=5)).strftime("%d-%m-%Y"))
-	print("7:",(today + timedelta(days=6)).strftime("%d-%m-%Y"))
-	print("8:",(today + timedelta(days=7)).strftime("%d-%m-%Y"))
+	print("1:",today.strftime(dateFormat))
+	print("2:",(today + timedelta(days=1)).strftime(dateFormat))
+	print("3:",(today + timedelta(days=2)).strftime(dateFormat))
+	print("4:",(today + timedelta(days=3)).strftime(dateFormat))
+	print("5:",(today + timedelta(days=4)).strftime(dateFormat))
+	print("6:",(today + timedelta(days=5)).strftime(dateFormat))
+	print("7:",(today + timedelta(days=6)).strftime(dateFormat))
+	print("8:",(today + timedelta(days=7)).strftime(dateFormat))
 	ticketDateCheck = input("Which option will you choose for the date of your ticket? : ")
 	if ticketDateCheck == "1":
 		ticketUseDate = today
@@ -143,7 +144,7 @@ print("total cost:", totalCost)
 print("number of adults", adultNum)
 print("number of seniors", seniorNum)
 print("number of children", childNum)
-print("to be used on", ticketUseDate.strftime("%d-%m-%Y"))
+print("to be used on", ticketUseDate.strftime(dateFormat))
 
 # Task 3
 childNumTemp = childNum
