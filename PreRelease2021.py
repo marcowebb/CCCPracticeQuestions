@@ -138,9 +138,35 @@ while check != True:
 			else:
 				totalCost += (childNum * 12.0)
 		else:
-			print("A minimum of one adult must accompany every two children")		
+			print("A minimum of one adult must accompany every two children")
 
-print("total cost:", totalCost)
+totalTickets = adultNum + seniorNum + childNum
+totalExtraCost = 0
+check = False
+while check != True:
+	print("lion feeding: 1")
+	print("penguin feeding: 2")
+	print("evening barbecue: 3")
+	print("No, I'm finished.: 4")
+	extraAttCheck = input("Would you like to visit any of our extra attractions? ")
+	if extraAttCheck == "1" and lionFeed != True:
+		totalExtraCost += totalTickets * 2.5
+		lionFeed = True
+	elif extraAttCheck == "2" and penguinFeed != True:
+		totalExtraCost += totalTickets * 2.0
+		penguinFeed = True
+	elif extraAttCheck == "3" and eveningBBQ != True:
+		if twoDay == True:
+			totalExtraCost += totalTickets * 5.0
+			eveningBBQ = True
+		else:
+			print("Sorry, the evening barbecue is only avalible for two-day tickets.")
+	elif extraAttCheck == "4":
+		check = True
+	else:
+		print("Either your input is invalid, or it has already been selected.")
+
+print("total cost:", (totalCost + totalExtraCost))
 print("number of adults", adultNum)
 print("number of seniors", seniorNum)
 print("number of children", childNum)
@@ -158,47 +184,101 @@ for i in range(0, adultNum):
 for i in range(0, seniorNum):
 	famTicketGuard.append("s")
 
-if len(famTicketGuard) == 1:
+if len(famTicketGuard) < 2:
 	print("Family ticket not possible.")
-elif len(famTicketGuard) % 2 == 0:
+else:
+	if len(famTicketGuard) % 2 != 0:
+		leftoverGuard = famTicketGuard[-1]
+		famTicketGuard.pop(-1)
+		guardianLeftover = True
 	accompanyMinorsPairs = len(famTicketGuard)
 	accompanyMinorsPairs = accompanyMinorsPairs / 2
 	while True:
-		if childNumTemp >= 3 and accompanyMinors >= 1:
+		if childNumTemp >= 3 and accompanyMinorsPairs >= 1:
 			childNumTemp -= 3
-			accompanyMinors -= 1
+			accompanyMinorsPairs -= 1
 			familyTicketCount += 1
+			famTicketGuard.pop(0)
+			famTicketGuard.pop(0)
 		else:
 			break
-	if familyTicketCount >= 1:
-		for i in range(0, familyTicketCount):
-			famTicketGuard.pop(0)
-			famTicketGuard.pop(0)
-elif len(famTicketGuard) % 2 != 0:
-	famTicketGuardLeftover = famTicketGuard[-1]
-	famTicketGuard.pop(-1)
-
-	accompanyMinorsPairs = len(famTicketGuard)
-	accompanyMinorsPairs = accompanyMinorsPairs / 2
-	while True:
-		if childNumTemp >= 3 and accompanyMinors >= 1:
-			childNumTemp -= 3
-			accompanyMinors -= 1
-			familyTicketCount += 1
-		else:
-			break
-	if familyTicketCount >= 1:
-		for i in range(0, familyTicketCount):
-			famTicketGuard.pop(0)
-			famTicketGuard.pop(0)
-
-	famTicketGuard.append(famTicketGuardLeftover)
-
-# FAMILY TICKET CALCULATOR WORKS!
-# Now, just calculate possibilities of group tickets
-# with the leftover people from this
 
 # famTicketGuard = remaining guardians
+# familyTicketCount = number of family tickets
 # childNumTemp = remaining children
 childNum = childNumTemp
+groupTicket = False
+leftovers = []
 
+if len(famTicketGuard) != 0:
+	leftovers = famTicketGuard
+if guardianLeftover == True:
+	leftovers.append(leftoverGuard)
+
+for i in range(0, childNum):
+	leftovers.append("c")
+
+while True:
+	if len(leftovers) >= 6:
+		groupTicket = True
+	else:
+		break
+
+# calculate new possible total cost
+if twoDay == True:
+	newTotalCost = familyTicketCount * 90.0
+	if groupTicket == True:
+		newTotalCost += len(leftovers) * 22.5
+	elif len(leftovers) > 0:
+		i = len(leftovers)
+		while len(leftovers) > 0:
+			i -= 1
+			if leftovers[i] == "a":
+				newTotalCost += 30.0
+				leftovers.pop(i)
+			elif leftovers[i] == "s":
+				newTotalCost += 24.0
+				leftovers.pop(i)
+			else:
+				newTotalCost += 18.0
+				leftovers.pop(i)
+else:
+	newTotalCost = familyTicketCount * 60.0
+	print("new total cost", newTotalCost) #
+	if groupTicket == True:
+		newTotalCost += len(leftovers) * 15.0
+		print("new total cost", newTotalCost) #
+	elif len(leftovers) > 0:
+		i = len(leftovers)
+		while len(leftovers) > 0:
+			i -= 1
+			print(i) #
+			print(leftovers[i]) #
+			print(leftovers)
+			if leftovers[i] == "a":
+				newTotalCost += 20.0
+				leftovers.pop(i)
+				print("new total cost", newTotalCost) #
+			elif leftovers[i] == "s":
+				newTotalCost += 16.0
+				leftovers.pop(i)
+				print("new total cost", newTotalCost) #
+			else:
+				newTotalCost += 12.0
+				leftovers.pop(i)
+				print("new total cost", newTotalCost) #
+
+
+newTotalCost += totalExtraCost
+print("new total cost", newTotalCost) #
+totalCost += totalExtraCost
+check = False
+if newTotalCost < totalCost:
+	print("You can save", (totalCost - newTotalCost), "dollars.")
+	priceSaveCheck = input("Would you like to optimize your tickets? Y/N: ")
+	if priceSaveCheck == "Y":
+		print("Total cost:", newTotalCost)
+	elif priceSaveCheck == "N":
+		print("Total cost:", totalCost)
+	else:
+		print("Please enter either Y or N.")
