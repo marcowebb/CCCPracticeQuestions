@@ -144,3 +144,60 @@ print("number of adults", adultNum)
 print("number of seniors", seniorNum)
 print("number of children", childNum)
 print("to be used on", ticketUseDate.strftime("%d-%m-%Y"))
+
+# Task 3
+childNumTemp = childNum
+
+familyTicketCount = 0
+groupTicketCount = 0
+
+famTicketGuard = []
+for i in range(0, adultNum):
+	famTicketGuard.append("a")
+for i in range(0, seniorNum):
+	famTicketGuard.append("s")
+
+if len(famTicketGuard) == 1:
+	print("Family ticket not possible.")
+elif len(famTicketGuard) % 2 == 0:
+	accompanyMinorsPairs = len(famTicketGuard)
+	accompanyMinorsPairs = accompanyMinorsPairs / 2
+	while True:
+		if childNumTemp >= 3 and accompanyMinors >= 1:
+			childNumTemp -= 3
+			accompanyMinors -= 1
+			familyTicketCount += 1
+		else:
+			break
+	if familyTicketCount >= 1:
+		for i in range(0, familyTicketCount):
+			famTicketGuard.pop(0)
+			famTicketGuard.pop(0)
+elif len(famTicketGuard) % 2 != 0:
+	famTicketGuardLeftover = famTicketGuard[-1]
+	famTicketGuard.pop(-1)
+
+	accompanyMinorsPairs = len(famTicketGuard)
+	accompanyMinorsPairs = accompanyMinorsPairs / 2
+	while True:
+		if childNumTemp >= 3 and accompanyMinors >= 1:
+			childNumTemp -= 3
+			accompanyMinors -= 1
+			familyTicketCount += 1
+		else:
+			break
+	if familyTicketCount >= 1:
+		for i in range(0, familyTicketCount):
+			famTicketGuard.pop(0)
+			famTicketGuard.pop(0)
+
+	famTicketGuard.append(famTicketGuardLeftover)
+
+# FAMILY TICKET CALCULATOR WORKS!
+# Now, just calculate possibilities of group tickets
+# with the leftover people from this
+
+# famTicketGuard = remaining guardians
+# childNumTemp = remaining children
+childNum = childNumTemp
+
